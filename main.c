@@ -87,7 +87,7 @@ void draw(double dt) {
         glCallList(app_state.opengl_objects.esfera_2_id);
     glPopMatrix();
 
-    app_state.angulo_rotacao += 1;    
+    app_state.angulo_rotacao += velocidade_angular;    
 }
 
 int main() {
@@ -107,17 +107,20 @@ int main() {
     init();
     inicialize_objects();
     Fps fps = fps_create();
-
+    double last_time = 0;
     while(!glfwWindowShouldClose(window)) {
         double current_time = glfwGetTime();
         set_fps_title(&fps, window, current_time);
 
+        double dt = current_time - last_time;
+        last_time = current_time;
+        
         glfwPollEvents();
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         update_window(window);
 
-        draw(0);
+        draw(dt);
         glfwSwapBuffers(window);
     }
 

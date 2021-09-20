@@ -5,6 +5,7 @@
 
 #include "extras/fps.h"
 #include "extras/forms.h"
+#include "extras/camera.h"
 
 #define PASSO_PER_FRAME 60.0
 
@@ -18,6 +19,7 @@ typedef struct {
 typedef struct {
     OpenGlObjectsIds opengl_objects;
     float angulo_rotacao;
+    Camera camera;
 } State;
 
 static State app_state;
@@ -40,9 +42,9 @@ void inicialize_objects() {
     forms_draw_cube(app_state.opengl_objects.cubo_1_id, 10, cube_face_colors);
 
     forms_draw_sphere(app_state.opengl_objects.esfera_1_id, 5, 50, 50, color_vermelho());
-    forms_draw_sphere(app_state.opengl_objects.esfera_2_id, 5, 50, 50, color_preto());
+    forms_draw_sphere(app_state.opengl_objects.esfera_2_id, 5, 50, 50, color_cinza());
 
-    forms_draw_ground(app_state.opengl_objects.terreno_id, -20, color_verde());
+    forms_draw_ground(app_state.opengl_objects.terreno_id, -10, color_branco());
 }
 
 void init() {
@@ -54,7 +56,9 @@ void init() {
 
     app_state.angulo_rotacao = 0;
 
-    glClearColor(1, 1, 1, 1);
+    app_state.camera = camera_create(vec3_create(-30, 0, 0));
+
+    glClearColor(0, 0, 0, 1);
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
@@ -72,6 +76,8 @@ void update_window(GLFWwindow* window) {
 
 void draw(double dt) {
     double velocidade_angular = PASSO_PER_FRAME * dt;
+
+    app_state.camera.ativar(&app_state.camera);
 
     glPushMatrix();
         glTranslatef(-20, 0, -50);

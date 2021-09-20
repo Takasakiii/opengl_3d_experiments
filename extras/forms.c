@@ -11,21 +11,6 @@
 #define GROUND_L 500
 #define GROUD_INCREMENT 1.0
 
-Vec3 vec3_create(float x, float y, float z) {
-    Vec3 vec;
-    vec.x = x;
-    vec.y = y;
-    vec.z = z;
-    return vec;
-}
-
-Vec3* vec3_create_heap(float x, float y, float z) {
-    Vec3* vec = malloc(sizeof(Vec3));
-    vec->x = x;
-    vec->y = y;
-    vec->z = z;
-    return vec;
-}
 
 void forms_draw_rectangle(Vec3 v1, Vec3 v2, Vec3 v3, Vec3 v4, Color color) {
     glColor3fv(&color.r);

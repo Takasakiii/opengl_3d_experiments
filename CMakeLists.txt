@@ -6,6 +6,8 @@ add_executable(
     extras/fps.c
     extras/colors.c
     extras/forms.c
+    extras/vector.c
+    extras/camera.c
 )
 
 find_package(glfw3 3.3 REQUIRED)

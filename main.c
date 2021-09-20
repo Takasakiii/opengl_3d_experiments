@@ -12,6 +12,7 @@ typedef struct {
     unsigned int esfera_1_id;
     unsigned int cubo_1_id;
     unsigned int esfera_2_id;
+    unsigned int terreno_id;
 } OpenGlObjectsIds;
 
 typedef struct {
@@ -38,15 +39,18 @@ void inicialize_objects() {
     cube_face_colors[5] = color_preto();
     forms_draw_cube(app_state.opengl_objects.cubo_1_id, 10, cube_face_colors);
 
-    forms_draw_sphere(app_state.opengl_objects.esfera_1_id, 5, 50, 50, color_verde());
+    forms_draw_sphere(app_state.opengl_objects.esfera_1_id, 5, 50, 50, color_vermelho());
     forms_draw_sphere(app_state.opengl_objects.esfera_2_id, 5, 50, 50, color_preto());
+
+    forms_draw_ground(app_state.opengl_objects.terreno_id, -20, color_verde());
 }
 
 void init() {
-    unsigned int first_alocated_id = glGenLists(3);
+    unsigned int first_alocated_id = glGenLists(4);
     app_state.opengl_objects.esfera_1_id = first_alocated_id;
     app_state.opengl_objects.cubo_1_id = first_alocated_id + 1;
     app_state.opengl_objects.esfera_2_id = first_alocated_id + 2;
+    app_state.opengl_objects.terreno_id = first_alocated_id + 3;
 
     app_state.angulo_rotacao = 0;
 
@@ -86,6 +90,8 @@ void draw(double dt) {
         glRotatef(app_state.angulo_rotacao, 1, 1, 0);
         glCallList(app_state.opengl_objects.esfera_2_id);
     glPopMatrix();
+
+    glCallList(app_state.opengl_objects.terreno_id);
 
     app_state.angulo_rotacao += velocidade_angular;    
 }

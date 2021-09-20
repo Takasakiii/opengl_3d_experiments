@@ -8,6 +8,9 @@
 
 #define PI 3.14159265358979323846
 
+#define GROUND_L 500
+#define GROUD_INCREMENT 1.0
+
 Vec3 vec3_create(float x, float y, float z) {
     Vec3 vec;
     vec.x = x;
@@ -138,4 +141,19 @@ void forms_draw_sphere(unsigned int opengl_id, float radius, unsigned int n_stac
 
     cc_array_destroy(pontos);
 
+}
+
+void forms_draw_ground(unsigned int opengl_id, float y, Color color) {
+    glNewList(opengl_id, GL_COMPILE);
+        glColor3fv(&color.r);
+        glBegin(GL_LINES);
+            for(float i = -GROUND_L; i <= GROUND_L; i += GROUD_INCREMENT) {
+                glVertex3f(i, y, -GROUND_L);
+                glVertex3f(i, y, GROUND_L);
+
+                glVertex3f(-GROUND_L, y, i);
+                glVertex3f(GROUND_L, y, i);
+            }
+        glEnd();
+    glEndList();
 }

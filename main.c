@@ -47,7 +47,23 @@ void inicialize_objects() {
     forms_draw_ground(app_state.opengl_objects.terreno_id, -10, color_branco());
 }
 
-void init() {
+void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+    } else if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+        app_state.camera.forward(&app_state.camera);
+    } else if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+        app_state.camera.left(&app_state.camera);
+    } else if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+        app_state.camera.back(&app_state.camera);
+    } else if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+        app_state.camera.right(&app_state.camera);
+    }
+}
+
+void init(GLFWwindow* window) {
+    glfwSetKeyCallback(window, keyboard_callback);
+
     unsigned int first_alocated_id = glGenLists(4);
     app_state.opengl_objects.esfera_1_id = first_alocated_id;
     app_state.opengl_objects.cubo_1_id = first_alocated_id + 1;
@@ -116,7 +132,7 @@ int main() {
     glfwMakeContextCurrent(window);
 
 
-    init();
+    init(window);
     inicialize_objects();
     Fps fps = fps_create();
     double last_time = 0;

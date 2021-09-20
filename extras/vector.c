@@ -22,3 +22,6 @@ Vec3 vec3_sum(Vec3 v1, Vec3 v2) {
     return vec3_create(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 }
 
+Vec3 vec3_mul(Vec3 v1, float k) {
+    return vec3_create(v1.x * k, v1.y * k, v1.z * k);
+}
